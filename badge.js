@@ -4,7 +4,20 @@ class LongStayBadge extends HTMLElement {
     this.attachShadow({ mode: 'open' });
   }
 
+  // This allows the component to react if you change the attribute via JS
+  static get observedAttributes() {
+    return ['property-id'];
+  }
+
+  attributeChangedCallback() {
+    this.render();
+  }
+
   connectedCallback() {
+    this.render();
+  }
+
+  render() {
     const propertyId = this.getAttribute('property-id') || '';
     const link = `https://longstay.co/properties/${propertyId}`;
 
@@ -13,49 +26,53 @@ class LongStayBadge extends HTMLElement {
         :host {
           display: inline-block;
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          cursor: pointer;
         }
         .badge-container {
           display: flex;
           align-items: center;
           gap: 10px;
-          padding: 8px 16px;
+          padding: 8px 14px;
           background: #ffffff;
           border: 1px solid #e2e8f0;
-          border-radius: 12px;
+          border-radius: 10px;
           text-decoration: none;
           color: #1a202c;
           transition: all 0.2s ease;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+          user-select: none;
+          white-space: nowrap;
         }
         .badge-container:hover {
           border-color: #3182ce;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+          background: #f7fafc;
         }
         .icon {
-          width: 20px;
-          height: 20px;
+          width: 22px;
+          height: 22px;
           background: #3182ce;
-          border-radius: 4px;
+          border-radius: 6px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: white;
-          font-weight: bold;
-          font-size: 12px;
-        }
-        .text-main {
-          font-weight: 600;
+          font-weight: 800;
           font-size: 14px;
         }
+        .text-main {
+          font-weight: 700;
+          font-size: 13px;
+          line-height: 1.2;
+          display: block;
+        }
         .text-sub {
-          font-size: 12px;
+          font-size: 11px;
           color: #718096;
           display: block;
         }
       </style>
       
-      <a href="${link}" class="badge-container" target="_blank" rel="noopener">
+      <a href="${link}" class="badge-container" target="_top">
         <div class="icon">L</div>
         <div>
           <span class="text-main">Best Rates Guaranteed</span>
@@ -66,4 +83,6 @@ class LongStayBadge extends HTMLElement {
   }
 }
 
-customElements.define('longstay-badge', LongStayBadge);
+if (!customElements.get('longstay-badge')) {
+  customElements.define('longstay-badge', LongStayBadge);
+}
