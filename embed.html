@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 2px; /* Prevents box-shadow clipping */
+            overflow: hidden; 
+            background: transparent; 
+        }
+    </style>
+    <script src="./badge.js"></script>
+</head>
+<body>
+    <longstay-badge id="badge"></longstay-badge>
+
+    <script>
+        // Grab 'id' from the URL (e.g., embed.html?id=loft-vancouver)
+        const params = new URLSearchParams(window.location.search);
+        const propertyId = params.get('id');
+        
+        if (propertyId) {
+            document.getElementById('badge').setAttribute('property-id', propertyId);
+        }
+    </script>
+</body>
+</html>
